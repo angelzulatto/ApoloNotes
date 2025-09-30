@@ -14,7 +14,6 @@ public class Notas extends Recurso {
 
     public Notas(String nombre, LocalDateTime fechaCreacion) {
         super(nombre, fechaCreacion);
-        //TODO Auto-generated constructor stub
     }
 
     @Override

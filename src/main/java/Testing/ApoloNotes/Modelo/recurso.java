@@ -38,9 +38,14 @@ public abstract class Recurso {
     public Recurso(){}
 
     public abstract void guardar();
-    public void eliminar() {
-        this.setRecursoActivo(false);
+
+     public void eliminar() {
+        this.recursoActivo = false;
     }
+    
+    // public void eliminar() {
+    //     this.setRecursoActivo(false);
+    // }
 }
 
 //se agregaran etiquetas
