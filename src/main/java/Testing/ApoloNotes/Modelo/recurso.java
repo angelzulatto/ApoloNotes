@@ -5,11 +5,13 @@ import java.time.LocalDateTime;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@MappedSuperclass                 // Esto le dice a JPA que las subclases heredan estos campos en la BD
 public abstract class Recurso {
 
     @Id
@@ -18,24 +20,26 @@ public abstract class Recurso {
 
     private String nombre;
     private LocalDateTime fechaCreacion;
-    private Boolean Recurso_activo;
-    private String Cuerpo_del_recurso;
+    private Boolean recursoActivo;
+    private String cuerpoDelRecurso;
     //private List <Etiqueta>;
     //private String ruta;
 
     public Recurso(String nombre,/*String etiqueta, String ruta,*/
                    LocalDateTime fechaCreacion) {
         this.nombre = nombre;
-        this.Cuerpo_del_recurso = null;
+        this.cuerpoDelRecurso = null;
         //this.etiqueta = etiqueta;
         //this.ruta = ruta;
         this.fechaCreacion = fechaCreacion;
-        this.Recurso_activo=true;
+        this.recursoActivo=true;
     }
+
+    public Recurso(){}
 
     public abstract void guardar();
     public void eliminar() {
-        this.setRecurso_activo(false);
+        this.setRecursoActivo(false);
     }
 }
 
