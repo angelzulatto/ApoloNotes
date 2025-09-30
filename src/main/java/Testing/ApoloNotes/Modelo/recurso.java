@@ -1,32 +1,42 @@
+package Testing.ApoloNotes.Modelo;
 
+import java.time.LocalDateTime;
 
-public abstract class recurso {
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public abstract class Recurso {
 
     @Id
-    @Getter
-    @Setter
-    @GenerateValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
     private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaEliminacion;
-    private String descripcion;
-    private String etiqueta;
-    private String ruta;
+    private Boolean Recurso_activo;
+    private String Cuerpo_del_recurso;
+    //private List <Etiqueta>;
+    //private String ruta;
 
-    public recurso(String nombre, String descripcion, string, etiqueta, LocalDateTime fechaCreacion, LocalDateTime fechaEliminacion){
+    public Recurso(String nombre,/*String etiqueta, String ruta,*/
+                   LocalDateTime fechaCreacion) {
         this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.etiqueta = etiqueta;
+        this.Cuerpo_del_recurso = null;
+        //this.etiqueta = etiqueta;
+        //this.ruta = ruta;
         this.fechaCreacion = fechaCreacion;
-        this.fechaEliminacion = fechaEliminacion;
-        this.ruta = ruta;
-
+        this.Recurso_activo=true;
     }
 
     public abstract void guardar();
-    public abstract void eliminar();
-
+    public void eliminar() {
+        this.setRecurso_activo(false);
+    }
 }
 
+//se agregaran etiquetas
