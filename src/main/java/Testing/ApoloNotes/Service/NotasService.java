@@ -19,9 +19,16 @@ import Testing.ApoloNotes.Modelo.Notas;
 
     // Crear una nueva nota
     public Notas crearNota(String nombre, LocalDateTime fechaCreacion, String contenido) {
-        Notas nota = new Notas(nombre, fechaCreacion, contenido);
-        return notasRepository.save(nota);
+    if (nombre == null || nombre.trim().isEmpty()) {
+        throw new IllegalArgumentException("El nombre de la nota es obligatorio");
     }
+    if (contenido == null || contenido.trim().isEmpty()) {
+        throw new IllegalArgumentException("La descripción (contenido) es obligatoria");
+    }
+
+    Notas nota = new Notas(nombre, fechaCreacion, contenido);
+    return notasRepository.save(nota);
+}
 
     // Eliminar nota (marcar como inactiva)
     public Notas eliminarNota(Long id) {
