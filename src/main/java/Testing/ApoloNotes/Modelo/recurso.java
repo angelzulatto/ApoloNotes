@@ -21,14 +21,14 @@ public abstract class Recurso {
     private String nombre;
     private LocalDateTime fechaCreacion;
     private Boolean recursoActivo;
-    private String cuerpoDelRecurso;
+    private String contenido;
     //private List <Etiqueta>;
     //private String ruta;
 
     public Recurso(String nombre,/*String etiqueta, String ruta,*/
                    LocalDateTime fechaCreacion) {
         this.nombre = nombre;
-        this.cuerpoDelRecurso = null;
+        this.contenido = null;
         //this.etiqueta = etiqueta;
         //this.ruta = ruta;
         this.fechaCreacion = fechaCreacion;
@@ -36,9 +36,8 @@ public abstract class Recurso {
     }
 
     public Recurso(){}
-
-    public abstract void guardar();
-
+    
+   
      public void eliminar() {
         this.recursoActivo = false;
     }

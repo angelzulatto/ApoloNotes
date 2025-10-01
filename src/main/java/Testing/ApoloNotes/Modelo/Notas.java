@@ -12,15 +12,12 @@ import lombok.Setter;
 @Getter
 public class Notas extends Recurso {
 
+
+    public Notas(){}
+
     public Notas(String nombre, LocalDateTime fechaCreacion) {
         super(nombre, fechaCreacion);
     }
-
-    @Override
-    public void guardar() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'guardar'");
-    }
     
-  
+
 }

@@ -42,8 +42,29 @@ import Testing.ApoloNotes.Modelo.Notas;
         return notasRepository.findAll();
     }
 
-    // Listar solo notas activas
-    public List<Notas> listarNotasActivas() {
-        return notasRepository.findByRecursoActivoTrue();
+     // Listar solo notas activas
+     public List<Notas> listarNotasActivas() {
+         return notasRepository.findByRecursoActivoTrue();
+     }
+
+
+     // Modificar una nota existente
+    public Notas actualizarNota(Long id, String nuevoNombre, String nuevoContenido, Boolean nuevoEstado) {
+    Notas notaExistente = notasRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Nota no encontrada con ID: " + id));
+
+    // Actualizamos los campos solo si se pasan
+    if (nuevoNombre != null && !nuevoNombre.isEmpty()) {
+        notaExistente.setNombre(nuevoNombre);
     }
+    if (nuevoContenido != null && !nuevoContenido.isEmpty()) {
+        notaExistente.setContenido(nuevoContenido);
+    }
+    if (nuevoEstado != null) {
+        notaExistente.setRecursoActivo(nuevoEstado);
+    }
+    
+    // Guardamos los cambios
+    return notasRepository.save(notaExistente);
+    }   
 }

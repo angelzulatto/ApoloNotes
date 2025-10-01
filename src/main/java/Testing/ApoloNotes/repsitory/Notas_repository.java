@@ -10,6 +10,6 @@ import Testing.ApoloNotes.Modelo.Notas;
 @Repository
 public interface Notas_repository extends JpaRepository<Notas, Long> {
 
-    List<Notas> findByRecursoActivoTrue();
+     List<Notas> findByRecursoActivoTrue();
     
 }
