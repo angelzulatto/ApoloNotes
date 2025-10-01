@@ -18,8 +18,8 @@ import Testing.ApoloNotes.Modelo.Notas;
     }
 
     // Crear una nueva nota
-    public Notas crearNota(String nombre, LocalDateTime fechaCreacion) {
-        Notas nota = new Notas(nombre, fechaCreacion);
+    public Notas crearNota(String nombre, LocalDateTime fechaCreacion, String contenido) {
+        Notas nota = new Notas(nombre, fechaCreacion, contenido);
         return notasRepository.save(nota);
     }
 

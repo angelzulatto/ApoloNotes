@@ -15,8 +15,8 @@ public class Notas extends Recurso {
 
     public Notas(){}
 
-    public Notas(String nombre, LocalDateTime fechaCreacion) {
-        super(nombre, fechaCreacion);
+    public Notas(String nombre, LocalDateTime fechaCreacion,String contenido ) {
+        super(nombre, fechaCreacion, contenido);
     }
     
 

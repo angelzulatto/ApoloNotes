@@ -26,9 +26,9 @@ public abstract class Recurso {
     //private String ruta;
 
     public Recurso(String nombre,/*String etiqueta, String ruta,*/
-                   LocalDateTime fechaCreacion) {
+                   LocalDateTime fechaCreacion,String contenido) {
         this.nombre = nombre;
-        this.contenido = null;
+        this.contenido = contenido;
         //this.etiqueta = etiqueta;
         //this.ruta = ruta;
         this.fechaCreacion = fechaCreacion;
