@@ -77,5 +77,13 @@ public class NotasController {
         return ResponseEntity.ok(nota);
     
     }
+
+    @PutMapping("/{id}/etiquetas")
+    public ResponseEntity<Notas> agregarEtiquetas(
+        @PathVariable Long id,
+        @RequestBody List<String> etiquetas) {
+    return ResponseEntity.ok(notasService.agregarEtiquetas(id, etiquetas));
+}
+
 }
 

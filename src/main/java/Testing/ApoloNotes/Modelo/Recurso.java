@@ -1,10 +1,15 @@
 package Testing.ApoloNotes.Modelo;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,11 +30,10 @@ public abstract class Recurso {
     //private List <Etiqueta>;
     //private String ruta;
 
-    public Recurso(String nombre,/*String etiqueta, String ruta,*/
+    public Recurso(String nombre, /*String ruta,*/
                    LocalDateTime fechaCreacion,String contenido) {
         this.nombre = nombre;
         this.contenido = contenido;
-        //this.etiqueta = etiqueta;
         //this.ruta = ruta;
         this.fechaCreacion = fechaCreacion;
         this.recursoActivo=true;
@@ -42,10 +46,16 @@ public abstract class Recurso {
         this.recursoActivo = false;
     }
     
-    // public void eliminar() {
-    //     this.setRecursoActivo(false);
-    // }
+    @ManyToMany
+    @JoinTable(
+    name = "Recurso_etiqueta",
+    joinColumns = @JoinColumn(name = "recurso_id"),
+    inverseJoinColumns = @JoinColumn(name = "etiqueta_id")
+    )
+    private Set<Tag> etiquetas = new HashSet<>();
+
+
+    
 }
 
-//se agregaran etiquetas
 //C

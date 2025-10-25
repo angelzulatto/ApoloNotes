@@ -6,16 +6,20 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import Testing.ApoloNotes.repsitory.Notas_repository;
+import Testing.ApoloNotes.repsitory.TagRepository;
 import Testing.ApoloNotes.Modelo.Notas;
+import Testing.ApoloNotes.Modelo.Tag;
 
 @Service
  public class NotasService {
 
     private final Notas_repository notasRepository;
+    private final TagRepository tagRepository;
 
-    public NotasService(Notas_repository notasRepository) {
-        this.notasRepository = notasRepository;
-    }
+    public NotasService(Notas_repository notasRepository, TagRepository tagRepository) {
+    this.notasRepository = notasRepository;
+    this.tagRepository = tagRepository;
+}
 
     // Crear una nueva nota
     public Notas crearNota(String nombre, LocalDateTime fechaCreacion, String contenido) {
@@ -74,4 +78,22 @@ import Testing.ApoloNotes.Modelo.Notas;
     // Guardamos los cambios
     return notasRepository.save(notaExistente);
     }   
+
+    //agregar tag
+    public Notas agregarEtiquetas(Long notaId, List<String> nombresEtiquetas) {
+    Notas nota = notasRepository.findById(notaId)
+        .orElseThrow(() -> new RuntimeException("Nota no encontrada"));
+
+    for (String nombre : nombresEtiquetas) {
+        Tag etiqueta = tagRepository.findByNombre(nombre);
+        if (etiqueta == null) {
+            etiqueta = new Tag();
+            etiqueta.setNombre_tag(nombre);
+            tagRepository.save(etiqueta);
+        }
+        nota.getEtiquetas().add(etiqueta);
+    }
+
+    return notasRepository.save(nota);
+}
 }
