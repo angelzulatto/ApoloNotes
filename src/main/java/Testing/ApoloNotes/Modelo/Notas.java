@@ -3,13 +3,10 @@ package Testing.ApoloNotes.Modelo;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 
-@Setter
-@Getter
+
 public class Notas extends Recurso {
 
 
