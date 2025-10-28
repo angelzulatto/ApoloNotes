@@ -28,6 +28,7 @@ public class NotasController {
     public ResponseEntity<Notas> crearNota(@RequestBody Notas notas) {
         Notas nuevaNota = notasService.crearNota(
                 notas.getNombre(),
+                notas.getTaglist(),
                 notas.getFechaCreacion(),
                 notas.getContenido()
         );

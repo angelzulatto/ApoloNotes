@@ -1,5 +1,6 @@
 package Testing.ApoloNotes.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class EventosController {
     public ResponseEntity<Eventos> crearEvento(@RequestBody Eventos evento) {
         Eventos nuevoEvento = eventosService.crearEvento(
                 evento.getNombre(),
+                evento.getTaglist(),
                 evento.getFechaCreacion(),
                 evento.getContenido(),
                 evento.getFechaDeEvento()
@@ -65,6 +67,7 @@ public class EventosController {
         Eventos evento = eventosService.actualizarEvento(
                 id,
                 eventoActualizado.getNombre(),
+                eventoActualizado.getTaglist(),
                 eventoActualizado.getContenido(),
                 eventoActualizado.getFechaDeEvento(),
                 eventoActualizado.getRecursoActivo()
@@ -79,4 +82,12 @@ public class EventosController {
             @RequestBody List<String> etiquetas) {
         return ResponseEntity.ok(eventosService.agregarEtiquetas(id, etiquetas));
     }
+
+    @GetMapping("/eventos/hoy")
+    public List<Eventos> eventosDelDia() {
+    LocalDateTime hoy = LocalDateTime.now();
+    return eventosService.obtenerEventosDeHoy(hoy);
+}
+
+
 }

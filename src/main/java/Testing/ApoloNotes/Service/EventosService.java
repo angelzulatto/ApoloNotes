@@ -27,7 +27,7 @@ public class EventosService {
     }
 
     // Crear un nuevo evento
-    public Eventos crearEvento(String nombre, LocalDateTime fechaCreacion, String contenido, LocalDateTime fechaEvento) {
+    public Eventos crearEvento(String nombre,String listag, LocalDateTime fechaCreacion, String contenido, LocalDateTime fechaEvento) {
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre del evento es obligatorio");
         }
@@ -38,7 +38,7 @@ public class EventosService {
             throw new IllegalArgumentException("La fecha del evento debe ser futura");
         }
 
-        Eventos evento = new Eventos(nombre, fechaCreacion, contenido, fechaEvento);
+        Eventos evento = new Eventos(nombre, listag , fechaCreacion, contenido, fechaEvento);
         return eventosRepository.save(evento);
     }
 
@@ -67,12 +67,13 @@ public class EventosService {
     }
 
     // Actualizar un evento
-    public Eventos actualizarEvento(Long id, String nuevoNombre, String nuevoContenido, 
+    public Eventos actualizarEvento(Long id, String nuevoNombre,String nuevoTaglist, String nuevoContenido, 
                                     LocalDateTime nuevaFecha, Boolean nuevoEstado) {
         Eventos evento = eventosRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Evento no encontrado con ID: " + id));
 
         if (nuevoNombre != null && !nuevoNombre.isEmpty()) evento.setNombre(nuevoNombre);
+        if (nuevoTaglist != null && !nuevoTaglist.isEmpty()) evento.setTaglist(nuevoTaglist);
         if (nuevoContenido != null && !nuevoContenido.isEmpty()) evento.setContenido(nuevoContenido);
         if (nuevaFecha != null) evento.setFechaDeEvento(nuevaFecha);
         if (nuevoEstado != null) evento.setRecursoActivo(nuevoEstado);
@@ -81,22 +82,46 @@ public class EventosService {
     }
 
     // Agregar etiquetas
-    public Eventos agregarEtiquetas(Long eventoId, List<String> nombresEtiquetas) {
-        Eventos evento = eventosRepository.findById(eventoId)
-            .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
+    // gregarEtiquetas(Long eventoId, List<String> nombresEtiquetas) {
+    //     Eventos evento = eventosRepository.findById(eventoId)
+    //         .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
 
-        for (String nombre : nombresEtiquetas) {
-            Tag etiqueta = tagRepository.findByNombre(nombre);
-            if (etiqueta == null) {
-                etiqueta = new Tag();
-                etiqueta.setNombre_tag(nombre);
-                tagRepository.save(etiqueta);
-            }
-            evento.getEtiquetas().add(etiqueta);
+    //     for (String nombre : nombresEtiquetas) {
+    //         Tag etiqueta = tagRepository.findByNombre(nombre);
+    //         if (etiqueta == null) {
+    //             etiqueta = new Tag();
+    //             etiqueta.setNombre_tag(nombre);
+    //             tagRepository.save(etiqueta);
+    //         }
+    //         evento.getTaglist(etiqueta);
+    //     }
+
+    //     return eventosRepository.save(evento);
+    // }
+  public Eventos agregarEtiquetas(Long eventoId, List<String> nombresEtiquetas) {
+    Eventos evento = eventosRepository.findById(eventoId)
+        .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
+
+    for (String nombre : nombresEtiquetas) {
+        Tag etiqueta = tagRepository.findByNombreTag(nombre); 
+        if (etiqueta == null) {
+            etiqueta = new Tag();
+            etiqueta.setNombreTag(nombre); 
+            tagRepository.save(etiqueta);
         }
 
-        return eventosRepository.save(evento);
+        // Agregar nombre al string taglist
+        String actual = evento.getTaglist();
+        if (actual == null || actual.isEmpty()) {
+            evento.setTaglist(nombre);
+        } else if (!actual.contains(nombre)) {
+            evento.setTaglist(actual + "," + nombre);
+        }
     }
+
+    return eventosRepository.save(evento);
+}
+
 
     // 🔔 Verificar y enviar notificaciones automáticamente
     // se ejecuta todos los días a las 6 AM
@@ -113,5 +138,13 @@ public class EventosService {
         );
     }
 }
+
+public List<Eventos> obtenerEventosDeHoy(LocalDateTime fecha) {
+    LocalDateTime inicioDia = fecha.withHour(0).withMinute(0).withSecond(0).withNano(0);
+    LocalDateTime finDia = inicioDia.plusDays(1).minusNanos(1);
+
+    return eventosRepository.findByFechaDeEventoBetween(inicioDia, finDia);
+}
+
 
 }

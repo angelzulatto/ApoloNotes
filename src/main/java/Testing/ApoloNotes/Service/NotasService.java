@@ -22,7 +22,7 @@ import Testing.ApoloNotes.Modelo.Tag;
 }
 
     // Crear una nueva nota
-    public Notas crearNota(String nombre, LocalDateTime fechaCreacion, String contenido) {
+    public Notas crearNota(String nombre,String listag , LocalDateTime fechaCreacion, String contenido) {
     if (nombre == null || nombre.trim().isEmpty()) {
         throw new IllegalArgumentException("El nombre de la nota es obligatorio");
     }
@@ -30,7 +30,7 @@ import Testing.ApoloNotes.Modelo.Tag;
         throw new IllegalArgumentException("La descripción (contenido) es obligatoria");
     }
 
-    Notas nota = new Notas(nombre, fechaCreacion, contenido);
+    Notas nota = new Notas(nombre, listag , fechaCreacion, contenido);
     return notasRepository.save(nota);
 }
 
@@ -80,20 +80,46 @@ import Testing.ApoloNotes.Modelo.Tag;
     }   
 
     //agregar tag
-    public Notas agregarEtiquetas(Long notaId, List<String> nombresEtiquetas) {
-    Notas nota = notasRepository.findById(notaId)
+    // public Notas agregarEtiquetas(Long notaId, List<String> nombresEtiquetas) {
+    // Notas nota = notasRepository.findById(notaId)
+    //     .orElseThrow(() -> new RuntimeException("Nota no encontrada"));
+
+    // for (String nombre : nombresEtiquetas) {
+    //     Tag etiqueta = tagRepository.findByNombre(nombre);
+    //     if (etiqueta == null) {
+    //         etiqueta = new Tag();
+    //         etiqueta.setNombre_tag(nombre);
+    //         tagRepository.save(etiqueta);
+    //     }
+    //     nota.getEtiquetas().add(etiqueta);
+    // }
+    //     return notasRepository.save(nota);
+    // }
+
+
+        public Notas agregarEtiquetas(Long eventoId, List<String> nombresEtiquetas) {
+    Notas nota = notasRepository.findById(eventoId)
         .orElseThrow(() -> new RuntimeException("Nota no encontrada"));
 
     for (String nombre : nombresEtiquetas) {
-        Tag etiqueta = tagRepository.findByNombre(nombre);
+        Tag etiqueta = tagRepository.findByNombreTag(nombre);
         if (etiqueta == null) {
             etiqueta = new Tag();
-            etiqueta.setNombre_tag(nombre);
+            etiqueta.setNombreTag(nombre);
             tagRepository.save(etiqueta);
         }
-        nota.getEtiquetas().add(etiqueta);
+
+        // Agregar nombre al string taglist
+        String actual = nota.getTaglist();
+        if (actual == null || actual.isEmpty()) {
+           nota.setTaglist(nombre);
+        } else if (!actual.contains(nombre)) {
+            nota.setTaglist(actual + "," + nombre);
+        }
     }
 
     return notasRepository.save(nota);
 }
+
+    
 }

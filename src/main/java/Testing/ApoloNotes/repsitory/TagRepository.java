@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import Testing.ApoloNotes.Modelo.Tag;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
-    Tag findByNombre(String nombre);
+    Tag findByNombreTag(String nombreTag);
 }
