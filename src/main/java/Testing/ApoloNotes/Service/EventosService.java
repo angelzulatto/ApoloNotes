@@ -81,7 +81,7 @@ public class EventosService {
         return eventosRepository.save(evento);
     }
 
-    // Agregar etiquetas
+    // Agregar etiquetas lista
     // gregarEtiquetas(Long eventoId, List<String> nombresEtiquetas) {
     //     Eventos evento = eventosRepository.findById(eventoId)
     //         .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
@@ -98,6 +98,8 @@ public class EventosService {
 
     //     return eventosRepository.save(evento);
     // }
+
+
   public Eventos agregarEtiquetas(Long eventoId, List<String> nombresEtiquetas) {
     Eventos evento = eventosRepository.findById(eventoId)
         .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
@@ -123,7 +125,7 @@ public class EventosService {
 }
 
 
-    // 🔔 Verificar y enviar notificaciones automáticamente
+    // Verificar y enviar notificaciones automáticamente
     // se ejecuta todos los días a las 6 AM
     @Scheduled(cron = "0 0 6 * * *") 
     public void notificarEventosDelDia() {
@@ -139,6 +141,7 @@ public class EventosService {
     }
 }
 
+//segundo iteto denotificacion sin usar schedul ni codigo fideo
 public List<Eventos> obtenerEventosDeHoy(LocalDateTime fecha) {
     LocalDateTime inicioDia = fecha.withHour(0).withMinute(0).withSecond(0).withNano(0);
     LocalDateTime finDia = inicioDia.plusDays(1).minusNanos(1);
