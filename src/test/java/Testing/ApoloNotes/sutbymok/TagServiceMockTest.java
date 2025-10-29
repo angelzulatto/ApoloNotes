@@ -1,5 +1,6 @@
 package Testing.ApoloNotes.sutbymok;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,11 +26,12 @@ public class TagServiceMockTest {
     }
 
     @Test
-    void crearTag_DeberiaGuardarTag() {
+    void crearTag() {
         Tag tag = new Tag();
         tag.setNombreTag("Importante");
 
-        when(tagRepository.save(any(Tag.class))).thenReturn(tag);
+        when(tagRepository.save(any(Tag.class))).thenReturn(new Tag());
+
 
         Tag resultado = tagService.crearTag(tag);
 
@@ -38,7 +40,7 @@ public class TagServiceMockTest {
     }
 
     @Test
-    void actualizarTag_DeberiaActualizarNombre() {
+    void actualizarTag() {
         Tag existente = new Tag();
         existente.setId(1L);
         existente.setNombreTag("Viejo");
@@ -47,7 +49,8 @@ public class TagServiceMockTest {
         nuevo.setNombreTag("Nuevo");
 
         when(tagRepository.findById(1L)).thenReturn(Optional.of(existente));
-        when(tagRepository.save(any(Tag.class))).thenReturn(existente);
+        when(tagRepository.save(any(Tag.class))).thenReturn(new Tag());
+
 
         Tag actualizado = tagService.actualizarTag(1L, nuevo);
 
@@ -57,7 +60,7 @@ public class TagServiceMockTest {
     }
 
     @Test
-    void eliminarTag_DeberiaLlamarDeleteSiExiste() {
+    void eliminarTag_SiExiste() {
         when(tagRepository.existsById(1L)).thenReturn(true);
 
         tagService.eliminarTag(1L);
@@ -66,7 +69,7 @@ public class TagServiceMockTest {
     }
 
     @Test
-    void eliminarTag_DeberiaLanzarExcepcionSiNoExiste() {
+    void eliminarTag_SiNoExiste() {
         when(tagRepository.existsById(99L)).thenReturn(false);
 
         RuntimeException ex = assertThrows(RuntimeException.class, () -> {

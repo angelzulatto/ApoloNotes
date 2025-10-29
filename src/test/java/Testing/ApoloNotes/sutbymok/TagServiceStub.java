@@ -12,8 +12,7 @@ public class TagServiceStub extends TagService {
     private final List<Tag> tags = new ArrayList<>();
 
     public TagServiceStub() {
-        super(null); // No necesitamos un repositorio real
-        // Opcional: precargar algunos tags
+        super(null); 
         tags.add(new Tag() {{ setId(1L); setNombreTag("Urgente"); }});
         tags.add(new Tag() {{ setId(2L); setNombreTag("Importante"); }});
     }
